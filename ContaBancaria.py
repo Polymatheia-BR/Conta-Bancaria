@@ -1,43 +1,39 @@
 class ContaBancaria:
-
-    def __init__(self, numero, saldo, nome, tipo, limite, status=False):
+    def __init__(self, numero, saldo, nome, tipo, limite, status = False):
         self.numero = numero
         self.saldo = saldo
         self.nome = nome
         self.tipo = tipo
-        self.limite = limite
         self.status = status
+        self.limite = limite
 
-    def verificarsaldo(self):
-        print(f"Saldo: R$ {self.saldo}")
+    def ativarconta(self):
+        if self.status == False:
+            self.status = True
+            print('A conta foi ativada')
+        else:
+            print('Conta já está ativada')
 
     def depositar(self, valor_deposito):
-        self.saldo += valor_deposito
-        print(f'Depositado um valor de: R$ {valor_deposito}')
-        self.verificarsaldo()
-
-    def sacar(self, valor_saque):
-        if valor_saque >= self.limite:
-            print(f"O valor do saque de R$ {valor_saque} é maior que seu limite de R$ {self.limite}")
-        elif valor_saque > self.saldo:
-            print("Saldo insuficiente")
-        else:
-            self.saldo -= valor_saque
-            print(f'Sacado um valor de: R$ {valor_saque}')
+        if valor_deposito > 0:
+            self.saldo += valor_deposito
             self.verificarsaldo()
-
-    
-    def ativarconta(self):
-        if status == False:
-            status = True
-            print("Conta ativada")
         else:
-            print("Essa conta já está ativada")
+            print('Não é possivel depositar um valor negativo!')
+    def sacar(self, valor_saque):
+        if valor_saque <= self.limite:
+            self.saldo -= valor_saque
+            self.verificarsaldo()
+        else:
+            print(f'Seu saque de {valor_saque} supera o seu limite de {self.limite}')
+    def verificarsaldo(self):
+        print(f'O seu saldo é: R${self.saldo}')
 
 
-conta1 = ContaBancaria(123456789,1000.50,"Ana","Corrente",5000)
-conta1.verificarsaldo()
-conta1.depositar(983)
-conta1.sacar(12)
-conta1.depositar(9000)
-conta1.sacar(6000)
+conta = ContaBancaria(123,123,"V","Corrente",5000)
+
+deposito = int(input('Digite o valor do deposito: '))
+conta.depositar(deposito)
+
+saque = int(input('Digite o valor do saque: '))
+conta.sacar(saque)
